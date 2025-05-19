@@ -30,6 +30,7 @@ function [xi] = GaussSeidel(mA, epsilon)
   endwhile
 end
 
+% MATRIZ DAS EQUACOES LINEARES DO PROBLEMA E
 mA = [-132, 22, 0, -1000; 5, -27, 7, -2000; 117, 0, -22, 110];
 epsilon = 0.01;
 mX = GaussSeidel(mA, epsilon)
