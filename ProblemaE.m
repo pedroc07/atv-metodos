@@ -26,6 +26,21 @@ function [dr] = Calcula_dr(mX1, mX0)
     dr = max(abs(mX1 .- mX0)) / max(abs(mX1));
 end
 
+function [Resp] = DiagDominante(mA, n)
+  Resp = 1;
+  for i = 1: n
+    soma = 0;
+    for j = 1: n
+      if j != i
+        soma = soma + abs(mA(i,j));
+      endif
+    endfor
+    if abs(mA(i,i)) <= soma
+      Resp = 0;
+    endif
+  endfor
+end
+
 % IMPLEMENTACAO DO METODO DE GAUSS SEIDEL
 function [xi] = GaussSeidel(mA, epsilon)
   dr = 1;
@@ -46,12 +61,15 @@ function [xi] = GaussJacobi(mA, epsilon)
   x0 = [0, 0, 0];
   xi = x0;
   k = 0;
-  while epsilon < dr
+  converg = DiagDominante(mA, 3);
+  if converg = 0
+    while epsilon < dr
       aux = xi;
       k = k + 1
       xi = AproximacaoJacobi(mA, xi);
       dr = Calcula_dr(xi, aux);
-  endwhile
+    endwhile
+  endif
 end
 
 % MATRIZ DAS EQUACOES LINEARES DO PROBLEMA E
