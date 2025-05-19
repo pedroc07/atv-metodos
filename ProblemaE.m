@@ -41,6 +41,38 @@ function [Resp] = DiagDominante(mA, n)
   endfor
 end
 
+function [Resp] = Sassenfeld(mA, n)
+  for i = 2: n
+    B1 = abs(mA(1, i)) / abs(mA(1, 1));
+    Baux = B1;
+    Bi = [];
+    Bi = horzcat(Bi, Baux);
+  endfor
+  for i = 2: n
+    soma0 = 0;
+    soma1 = 0;
+    for j = 1: i-1
+      if j != i
+        soma0 = soma0 + abs(mA(i, j)*Bi(j));
+      endif
+    endfor
+    for j = i+1: n
+      if j != i
+        soma1 = soma1 + abs(mA(i, j));
+      endif
+    endfor
+    Baux = (soma0 + soma1) / abs(mA(i, i));
+    Bi = horzcat(Bi, Baux);
+  endfor
+
+  Baux = max(Bi);
+  if abs(Baux) < 1
+    Resp = 1;
+  else
+    Resp = 0;
+  endif
+end
+
 % IMPLEMENTACAO DO METODO DE GAUSS SEIDEL
 function [xi] = GaussSeidel(mA, epsilon)
   dr = 1;
